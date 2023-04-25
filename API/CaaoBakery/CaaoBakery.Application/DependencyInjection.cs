@@ -1,5 +1,5 @@
-﻿using CaaoBakery.Application.Services.Authentication;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 
 namespace CaaoBakery.Application
 {
@@ -7,8 +7,8 @@ namespace CaaoBakery.Application
     {
 
         public static IServiceCollection AddApplication(this IServiceCollection services) {
-        
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+            services.AddMediatR(typeof(DependencyInjection).Assembly);
             return services;
         }
 
