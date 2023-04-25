@@ -1,49 +1,59 @@
-﻿using CaaoBakery.Application.Services.Authentication;
+﻿using CaaoBakery.Application.Authentication.Common;
+using CaaoBakery.Application.Authentication.Commands.Register;
+using CaaoBakery.Application.Authentication.Queries.Login;
 using CaaoBakery.Contracts.Authentication;
+using ErrorOr;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaaoBakery.Api.Controllers
 {
     [Route("auth")]
-    [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ApiController
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IMediator _mediator;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IMediator mediator)
         {
-            _authenticationService = authenticationService;
+            _mediator = mediator;
         }
 
+
+
+
         [HttpPost("register")]
-        public IActionResult Register(RegisterRequest request)
+        public async Task<IActionResult> Register(RegisterRequest request)
         {
-            var authResult = _authenticationService.Register(
-                request.FirstName, request.LastName, request.Email, request.Password);
 
-            var response = new AuthenticationResponse(authResult.user.Id,
-                                                      authResult.user.FirstName,
-                                                      authResult.user.LastName,
-                                                      authResult.user.Email,
-                                                      authResult.Token);
+            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
+            ErrorOr<AuthtenticationResult> authResult = await _mediator.Send(command);
 
-
-            return Ok(response);
+            return authResult.Match(
+                    authResult=> Ok(MapAutResult(authResult)),
+                    errors=> Problem(errors)
+                );
         }
 
         [HttpPost("login")]
-        public IActionResult Login(LoginRequest request)
+        public async Task<IActionResult> Login(LoginRequest request)
         {
-            var authResult = _authenticationService.Login(request.Email, request.Password);
+            var query = new LoginQuery(request.Email,request.Password);
+            ErrorOr<AuthtenticationResult> authResult = await _mediator.Send(query);
 
-            var response = new AuthenticationResponse(authResult.user.Id,
-                                                      authResult.user.FirstName,
-                                                      authResult.user.LastName,
-                                                      authResult.user.Email,
-                                                      authResult.Token);
+            return authResult.Match(
+                    authResult => Ok(MapAutResult(authResult)),
+                    errors => Problem(errors)
+                );
+        }
 
-
-            return Ok(response);
+        private static AuthenticationResponse MapAutResult(AuthtenticationResult authResult)
+        {
+            return new AuthenticationResponse(
+                authResult.user.Id,
+                authResult.user.FirstName,
+                authResult.user.LastName,
+                authResult.user.Email,
+                authResult.Token);
         }
     }
 }
