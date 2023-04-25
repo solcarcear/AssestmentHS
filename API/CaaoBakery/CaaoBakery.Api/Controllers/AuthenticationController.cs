@@ -1,12 +1,12 @@
 ﻿using CaaoBakery.Application.Services.Authentication;
 using CaaoBakery.Contracts.Authentication;
+using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CaaoBakery.Api.Controllers
 {
     [Route("auth")]
-    [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : ApiController
     {
         private readonly IAuthenticationService _authenticationService;
 
@@ -18,17 +18,13 @@ namespace CaaoBakery.Api.Controllers
         [HttpPost("register")]
         public IActionResult Register(RegisterRequest request)
         {
-            var authResult = _authenticationService.Register(
+            ErrorOr<AuthtenticationResult> authResult = _authenticationService.Register(
                 request.FirstName, request.LastName, request.Email, request.Password);
 
-            var response = new AuthenticationResponse(authResult.user.Id,
-                                                      authResult.user.FirstName,
-                                                      authResult.user.LastName,
-                                                      authResult.user.Email,
-                                                      authResult.Token);
-
-
-            return Ok(response);
+            return authResult.Match(
+                    authResult=> Ok(MapAutResult(authResult)),
+                    errors=> Problem(errors)
+                );
         }
 
         [HttpPost("login")]
@@ -36,14 +32,20 @@ namespace CaaoBakery.Api.Controllers
         {
             var authResult = _authenticationService.Login(request.Email, request.Password);
 
-            var response = new AuthenticationResponse(authResult.user.Id,
-                                                      authResult.user.FirstName,
-                                                      authResult.user.LastName,
-                                                      authResult.user.Email,
-                                                      authResult.Token);
+            return authResult.Match(
+                    authResult => Ok(MapAutResult(authResult)),
+                    errors => Problem(errors)
+                );
+        }
 
-
-            return Ok(response);
+        private static AuthenticationResponse MapAutResult(AuthtenticationResult authResult)
+        {
+            return new AuthenticationResponse(
+                authResult.user.Id,
+                authResult.user.FirstName,
+                authResult.user.LastName,
+                authResult.user.Email,
+                authResult.Token);
         }
     }
 }

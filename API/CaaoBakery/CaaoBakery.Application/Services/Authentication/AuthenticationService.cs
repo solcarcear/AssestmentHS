@@ -1,6 +1,9 @@
-﻿using CaaoBakery.Application.Common.Interfaces.Authentication;
+﻿using CaaoBakery.Application.Common.Errors;
+using CaaoBakery.Application.Common.Interfaces.Authentication;
 using CaaoBakery.Application.Persistence;
+using CaaoBakery.Domain.Common.Errors;
 using CaaoBakery.Domain.Entities;
+using ErrorOr;
 
 namespace CaaoBakery.Application.Services.Authentication
 {
@@ -9,18 +12,18 @@ namespace CaaoBakery.Application.Services.Authentication
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
 
-        public AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+        public  AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
         }
 
-        public AuthtenticationResult Register(string firstName, string lastName, string email, string password)
+        public ErrorOr<AuthtenticationResult> Register(string firstName, string lastName, string email, string password)
         {
             //Check if user exists
             if(_userRepository.GetUserByEmail(email) is not null)
             {
-                throw new Exception("User with given email already exists.");
+                return Errors.User.DuplicateEmail;
             }
 
             //Create user (generate unique ID)
@@ -40,19 +43,19 @@ namespace CaaoBakery.Application.Services.Authentication
             return new AuthtenticationResult(user, token);
         }
 
-        public AuthtenticationResult Login(string email, string password)
+        public ErrorOr<AuthtenticationResult> Login(string email, string password)
         {
             //Validate the user exists
             if(_userRepository.GetUserByEmail(email) is not User user)
             {
-                throw new Exception("User with given email does not exist.");
+                return Errors.Authentication.InvalidCredentials;
 
             }
 
             //Validate the password
             if (user.Password != password)
             {
-                throw new Exception("Invalid password.");
+                return Errors.Authentication.InvalidCredentials;
 
             }
 
