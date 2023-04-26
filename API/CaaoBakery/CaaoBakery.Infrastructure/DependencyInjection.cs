@@ -1,6 +1,6 @@
 ﻿using CaaoBakery.Application.Common.Interfaces.Authentication;
+using CaaoBakery.Application.Common.Interfaces.Persistence;
 using CaaoBakery.Application.Common.Services;
-using CaaoBakery.Application.Persistence;
 using CaaoBakery.Infrastructure.Authentication;
 using CaaoBakery.Infrastructure.Persistence;
 using CaaoBakery.Infrastructure.Services;

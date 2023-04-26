@@ -1,10 +1,10 @@
 ﻿using CaaoBakery.Application.Common.Interfaces.Authentication;
-using CaaoBakery.Application.Persistence;
 using CaaoBakery.Domain.Entities;
 using CaaoBakery.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 using CaaoBakery.Application.Authentication.Common;
+using CaaoBakery.Application.Common.Interfaces.Persistence;
 
 namespace CaaoBakery.Application.Authentication.Commands.Register
 {

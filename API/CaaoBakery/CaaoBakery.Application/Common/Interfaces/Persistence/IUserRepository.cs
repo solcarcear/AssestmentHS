@@ -1,6 +1,6 @@
 ﻿using CaaoBakery.Domain.Entities;
 
-namespace CaaoBakery.Application.Persistence
+namespace CaaoBakery.Application.Common.Interfaces.Persistence
 {
     public interface IUserRepository
     {
