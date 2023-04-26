@@ -11,6 +11,8 @@
     <ProjectReference Include="..\CaaoBakery.Contracts\CaaoBakery.Contracts.csproj" />
     <ProjectReference Include="..\CaaoBakery.Application\CaaoBakery.Application.csproj" />
     <ProjectReference Include="..\CaaoBakery.Infrastructure\CaaoBakery.Infrastructure.csproj" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 

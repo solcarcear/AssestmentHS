@@ -2,6 +2,6 @@
 
 namespace CaaoBakery.Application.Authentication.Common
 {
-    public record AuthtenticationResult(User user,
+    public record AuthenticationResult(User User,
                                          string Token);
 }

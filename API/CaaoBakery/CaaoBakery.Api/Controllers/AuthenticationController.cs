@@ -5,31 +5,31 @@ using CaaoBakery.Contracts.Authentication;
 using ErrorOr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MapsterMapper;
 
 namespace CaaoBakery.Api.Controllers
 {
     [Route("auth")]
     public class AuthenticationController : ApiController
     {
-        private readonly IMediator _mediator;
+        private readonly ISender _mediator;
+        private readonly IMapper _mapper;
 
-        public AuthenticationController(IMediator mediator)
+        public AuthenticationController(ISender mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
-
-
-
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterRequest request)
         {
+            var command = _mapper.Map<RegisterCommand>(request);
 
-            var command = new RegisterCommand(request.FirstName, request.LastName, request.Email, request.Password);
-            ErrorOr<AuthtenticationResult> authResult = await _mediator.Send(command);
+            ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
             return authResult.Match(
-                    authResult=> Ok(MapAutResult(authResult)),
+                    authResult=> Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                     errors=> Problem(errors)
                 );
         }
@@ -37,23 +37,14 @@ namespace CaaoBakery.Api.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
-            var query = new LoginQuery(request.Email,request.Password);
-            ErrorOr<AuthtenticationResult> authResult = await _mediator.Send(query);
+            var query = _mapper.Map<LoginQuery>(request);
+
+            ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
             return authResult.Match(
-                    authResult => Ok(MapAutResult(authResult)),
+                    authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
                     errors => Problem(errors)
                 );
-        }
-
-        private static AuthenticationResponse MapAutResult(AuthtenticationResult authResult)
-        {
-            return new AuthenticationResponse(
-                authResult.user.Id,
-                authResult.user.FirstName,
-                authResult.user.LastName,
-                authResult.user.Email,
-                authResult.Token);
         }
     }
 }

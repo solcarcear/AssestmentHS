@@ -9,7 +9,7 @@ using CaaoBakery.Application.Authentication.Common;
 namespace CaaoBakery.Application.Authentication.Queries.Login
 {
     public class LoginQueryHandler :
-        IRequestHandler<LoginQuery, ErrorOr<AuthtenticationResult>>
+        IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
@@ -20,8 +20,9 @@ namespace CaaoBakery.Application.Authentication.Queries.Login
             _userRepository = userRepository;
         }
 
-        public async Task<ErrorOr<AuthtenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
+        public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
             //Validate the user exists
             if (_userRepository.GetUserByEmail(query.Email) is not User user)
             {
@@ -40,7 +41,7 @@ namespace CaaoBakery.Application.Authentication.Queries.Login
 
             var token = _jwtTokenGenerator.GenerateToken(user);
 
-            return new AuthtenticationResult(user, token);
+            return new AuthenticationResult(user, token);
         }
     }
 }
