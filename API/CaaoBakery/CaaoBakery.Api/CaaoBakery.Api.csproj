@@ -1,15 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>68e07934-39f4-44d0-af23-ecc54c53fff3</UserSecretsId>
   </PropertyGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\CaaoBakery.Contracts\CaaoBakery.Contracts.csproj" />
     <ProjectReference Include="..\CaaoBakery.Application\CaaoBakery.Application.csproj" />
     <ProjectReference Include="..\CaaoBakery.Infrastructure\CaaoBakery.Infrastructure.csproj" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
 	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
