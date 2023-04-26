@@ -1,15 +1,15 @@
 ﻿using CaaoBakery.Application.Common.Interfaces.Authentication;
-using CaaoBakery.Application.Persistence;
 using CaaoBakery.Domain.Entities;
 using CaaoBakery.Domain.Common.Errors;
 using ErrorOr;
 using MediatR;
 using CaaoBakery.Application.Authentication.Common;
+using CaaoBakery.Application.Common.Interfaces.Persistence;
 
 namespace CaaoBakery.Application.Authentication.Commands.Register
 {
     public class RegisterCommandHandler :
-        IRequestHandler<RegisterCommand, ErrorOr<AuthtenticationResult>>
+        IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
@@ -22,9 +22,11 @@ namespace CaaoBakery.Application.Authentication.Commands.Register
             _userRepository = userRepository;
         }
 
-        public async Task<ErrorOr<AuthtenticationResult>> Handle(
+        public async Task<ErrorOr<AuthenticationResult>> Handle(
             RegisterCommand command, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
+
             //Check if user exists
             if (_userRepository.GetUserByEmail(command.Email) is not null)
             {
@@ -45,7 +47,7 @@ namespace CaaoBakery.Application.Authentication.Commands.Register
             var token = _jwtTokenGenerator.GenerateToken(user);
 
 
-            return new AuthtenticationResult(user, token);
+            return new AuthenticationResult(user, token);
         }
     }
 }

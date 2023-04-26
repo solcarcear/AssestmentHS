@@ -1,4 +1,4 @@
-﻿using CaaoBakery.Application.Persistence;
+﻿using CaaoBakery.Application.Common.Interfaces.Persistence;
 using CaaoBakery.Domain.Entities;
 
 namespace CaaoBakery.Infrastructure.Persistence
