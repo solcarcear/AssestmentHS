@@ -1,15 +1,15 @@
-﻿using CaaoBakery.Application.Common.Interfaces.Authentication;
-using CaaoBakery.Domain.Entities;
+﻿using CaaoBakery.Application.Authentication.Common;
+using CaaoBakery.Application.Common.Interfaces.Authentication;
+using CaaoBakery.Application.Common.Interfaces.Persistence;
 using CaaoBakery.Domain.Common.Errors;
+using CaaoBakery.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;
-using CaaoBakery.Application.Authentication.Common;
-using CaaoBakery.Application.Common.Interfaces.Persistence;
 
 namespace CaaoBakery.Application.Authentication.Commands.Register
 {
     public class RegisterCommandHandler :
-        IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+    IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
@@ -22,32 +22,27 @@ namespace CaaoBakery.Application.Authentication.Commands.Register
             _userRepository = userRepository;
         }
 
-        public async Task<ErrorOr<AuthenticationResult>> Handle(
-            RegisterCommand command, CancellationToken cancellationToken)
+        public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
 
-            //Check if user exists
+            // 1. Validate the user doesn't exist
             if (_userRepository.GetUserByEmail(command.Email) is not null)
             {
                 return Errors.User.DuplicateEmail;
             }
 
-            //Create user (generate unique ID)
-            var user = new User
-            {
-                FirstName = command.FirstName,
-                LastName = command.LastName,
-                Email = command.Email,
-                Password = command.Password
-            };
+            // 2. Create user (generate unique ID) & Persist to DB
+            var user = User.Create(command.FirstName, command.LastName, command.Email, command.Password);
+
             _userRepository.Add(user);
 
-            //Check JWT Token
+            // 3. Create JWT token
             var token = _jwtTokenGenerator.GenerateToken(user);
 
-
-            return new AuthenticationResult(user, token);
+            return new AuthenticationResult(
+                user,
+                token);
         }
     }
 }

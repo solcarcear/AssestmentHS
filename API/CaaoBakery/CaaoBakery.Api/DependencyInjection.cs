@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MediatR;
-using CaaoBakery.Api.Errors;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using CaaoBakery.Api.Mapping;
+using CaaoBakery.Api.Common.Mapping;
+using CaaoBakery.Api.Common.Errors;
 
 namespace CaaoBakery.Api
 {

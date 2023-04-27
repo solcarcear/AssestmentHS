@@ -1,0 +1,47 @@
+version: "3.4"
+
+networks:
+ hsappnetwork:
+
+services:
+
+ hsappdb:
+  container_name: app-db
+  image: "mcr.microsoft.com/mssql/server:2022-latest"
+  ports:
+   - "1433:1433"
+  environment:
+   SA_PASSWORD: "C@rce31010"
+   ACCEPT_EULA: "Y"
+  networks:
+   - hsappnetwork
+
+ hsappapi:  
+  container_name: app-api
+  build:      
+   context: ./API/CaaoBakery
+   dockerfile: Dockerfile
+  ports:
+   - "7029:5000"
+  depends_on:
+   - hsappdb
+  environment:
+   - ASPNETCORE_ENVIRONMENT=Development
+   - ASPNETCORE_URLS=http://+:5000
+   - DB_HOST=hsappdb
+   - DB_NAME=CaaoBakery
+   - DB_SA_PASSWORD=C@rce31010
+  networks:
+   - hsappnetwork
+
+ hsappfe:
+  container_name: app-fe
+  build:
+   context: ./feApp
+   dockerfile: Dockerfile
+  depends_on:
+   - hsappapi
+  ports:
+      - 5003:80
+  networks:
+   - hsappnetwork

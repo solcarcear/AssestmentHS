@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 
-namespace CaaoBakery.Api.Errors
+namespace CaaoBakery.Api.Common.Errors
 {
     public class CaaoBakeryProblemDetailsFactory : ProblemDetailsFactory
     {
@@ -94,7 +94,11 @@ namespace CaaoBakery.Api.Errors
 
             if (errors is not null)
             {
-                problemDetails.Extensions.Add("errorCodes", errors.Select(e => e.Code));
+                problemDetails.Extensions.Add("errors", errors.Select(e => new
+                {
+                    e.Code,
+                    e.Description
+                }));
             }
 
         }
