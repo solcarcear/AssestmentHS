@@ -1,4 +1,4 @@
-﻿using CaaoBakery.Domain.Entities;
+﻿using CaaoBakery.Domain.UserAggregate;
 
 namespace CaaoBakery.Application.Authentication.Common
 {

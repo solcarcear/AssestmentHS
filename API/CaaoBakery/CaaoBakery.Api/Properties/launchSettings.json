@@ -1,23 +1,17 @@
-﻿{
-  "$schema": "https://json.schemastore.org/launchsettings.json",
-  "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
-    "iisExpress": {
-      "applicationUrl": "http://localhost:7033",
-      "sslPort": 44338
-    }
-  },
+{
   "profiles": {
     "CaaoBakery.Api": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:7027;http://localhost:5062",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_HOST": "DESKTOP-O7DD9U8\\CAAO",
+        "DB_NAME": "CaaoBakery",
+        "DB_SA_PASSWORD": "C@rce3101"
+      },
+      "dotnetRunMessages": true,
+      "applicationUrl": "https://localhost:7027;http://localhost:5062"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -26,6 +20,22 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:7033",
+      "sslPort": 44338
     }
   }
 }

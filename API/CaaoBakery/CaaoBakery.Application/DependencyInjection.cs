@@ -10,8 +10,8 @@ namespace CaaoBakery.Application
     {
 
         public static IServiceCollection AddApplication(this IServiceCollection services) {
-            services.AddMediatR(x=> x.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
+            services.AddMediatR(x=> x.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
 
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

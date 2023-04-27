@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CaaoBakery.Domain.Common.Models
 {
-    public abstract class Entity<TId>:IEquatable<Entity<TId>>
+    public abstract class Entity<TId> : IEquatable<Entity<TId>>
+    where TId : ValueObject
     {
-
-
         public TId Id { get; protected set; }
 
         protected Entity(TId id)
@@ -19,7 +18,7 @@ namespace CaaoBakery.Domain.Common.Models
 
         public override bool Equals(object? obj)
         {
-            return obj is Entity<TId> entity && Equals((Entity<TId>)obj);
+            return obj is Entity<TId> entity && Id.Equals(entity.Id);
         }
 
         public bool Equals(Entity<TId>? other)
@@ -31,6 +30,7 @@ namespace CaaoBakery.Domain.Common.Models
         {
             return Equals(left, right);
         }
+
         public static bool operator !=(Entity<TId> left, Entity<TId> right)
         {
             return !Equals(left, right);
@@ -40,5 +40,11 @@ namespace CaaoBakery.Domain.Common.Models
         {
             return Id.GetHashCode();
         }
+
+#pragma warning disable CS8618 
+        protected Entity(){
+        }
+#pragma warning restore CS8618 
+        
     }
 }

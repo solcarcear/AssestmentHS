@@ -2,7 +2,7 @@
 using MapsterMapper;
 using System.Reflection;
 
-namespace CaaoBakery.Api.Mapping
+namespace CaaoBakery.Api.Common.Mapping
 {
     public static class DependencyInjection
     {
