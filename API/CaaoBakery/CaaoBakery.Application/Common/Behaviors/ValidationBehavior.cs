@@ -1,8 +1,5 @@
-﻿using CaaoBakery.Application.Authentication.Commands.Register;
-using CaaoBakery.Application.Authentication.Common;
-using ErrorOr;
+﻿using ErrorOr;
 using FluentValidation;
-using FluentValidation.Results;
 using MediatR;
 
 namespace CaaoBakery.Application.Common.Behaviors
