@@ -3,6 +3,7 @@ using CaaoBakery.Application.Common.Interfaces.Persistence;
 using CaaoBakery.Application.Common.Services;
 using CaaoBakery.Infrastructure.Authentication;
 using CaaoBakery.Infrastructure.Persistence;
+using CaaoBakery.Infrastructure.Persistence.Repositories;
 using CaaoBakery.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -36,13 +37,13 @@ namespace CaaoBakery.Infrastructure
             var dbName = Environment.GetEnvironmentVariable("DB_NAME");
             var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
 
-            Console.WriteLine($"*********************************************************************************{$"Server={dbHost};Database={dbName};User=sa;Password={dbPassword};TrustServerCertificate=true"}*********************************************************************************");
 
             services.AddDbContext<CaaoBakeryDbContext>(options =>
                 options.UseSqlServer(
                     $"Server={dbHost};Database={dbName};User=sa;Password={dbPassword};TrustServerCertificate=true"));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
 
             return services;

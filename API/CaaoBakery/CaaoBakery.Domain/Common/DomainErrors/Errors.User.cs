@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 
-namespace CaaoBakery.Domain.Common.Errors
+namespace CaaoBakery.Domain.Common.DomainErrors
 {
     public static partial class Errors
     {

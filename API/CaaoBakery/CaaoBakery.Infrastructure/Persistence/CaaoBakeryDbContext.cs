@@ -1,4 +1,5 @@
-﻿using CaaoBakery.Domain.UserAggregate;
+﻿using CaaoBakery.Domain.ProductAggregate;
+using CaaoBakery.Domain.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -28,6 +29,8 @@ namespace CaaoBakery.Infrastructure.Persistence
         }
 
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
