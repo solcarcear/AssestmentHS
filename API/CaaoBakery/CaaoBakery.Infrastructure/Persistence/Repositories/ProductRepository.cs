@@ -23,7 +23,13 @@ namespace CaaoBakery.Infrastructure.Persistence.Repositories
 
         public bool Delete(ProductId productId)
         {
-            
+            var product = _dbContext.Products.FirstOrDefault(x=>x.Id == productId);
+
+            _dbContext.Remove(product);
+            _dbContext.SaveChanges();
+
+            return true;
+
         }
 
         public List<Product> List(string name, ProductType productType)

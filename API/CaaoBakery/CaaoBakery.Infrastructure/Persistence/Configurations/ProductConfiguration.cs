@@ -68,6 +68,11 @@ namespace CaaoBakery.Infrastructure.Persistence.Configurations
 
             builder.OwnsOne(m => m.AverageRating);
 
+            builder.Property(r => r.ProductType)
+                    .HasConversion(
+                        status => status.Value,
+                        value => ProductType.FromValue(value));
+
         }
     }
 }
