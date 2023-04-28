@@ -1,7 +1,7 @@
 ﻿using CaaoBakery.Application.Authentication.Common;
 using CaaoBakery.Application.Common.Interfaces.Authentication;
 using CaaoBakery.Application.Common.Interfaces.Persistence;
-using CaaoBakery.Domain.Common.Errors;
+using CaaoBakery.Domain.Common.DomainErrors;
 using CaaoBakery.Domain.UserAggregate;
 using ErrorOr;
 using MediatR;

@@ -36,7 +36,6 @@ namespace CaaoBakery.Infrastructure
             var dbName = Environment.GetEnvironmentVariable("DB_NAME");
             var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
 
-            Console.WriteLine($"*********************************************************************************{$"Server={dbHost};Database={dbName};User=sa;Password={dbPassword};TrustServerCertificate=true"}*********************************************************************************");
 
             services.AddDbContext<CaaoBakeryDbContext>(options =>
                 options.UseSqlServer(
