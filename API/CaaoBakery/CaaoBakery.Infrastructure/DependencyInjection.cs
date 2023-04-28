@@ -3,6 +3,7 @@ using CaaoBakery.Application.Common.Interfaces.Persistence;
 using CaaoBakery.Application.Common.Services;
 using CaaoBakery.Infrastructure.Authentication;
 using CaaoBakery.Infrastructure.Persistence;
+using CaaoBakery.Infrastructure.Persistence.Repositories;
 using CaaoBakery.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -42,6 +43,7 @@ namespace CaaoBakery.Infrastructure
                     $"Server={dbHost};Database={dbName};User=sa;Password={dbPassword};TrustServerCertificate=true"));
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
 
             return services;

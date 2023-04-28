@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CaaoBakery.Domain.ProductAggregate;
+using CaaoBakery.Domain.ProductAggregate.Enums;
+using CaaoBakery.Domain.ProductAggregate.ValueObjects;
 
 namespace CaaoBakery.Application.Common.Interfaces.Persistence
 {
-    internal class IProductRepository
+    public interface IProductRepository
     {
+        List<Product> List(string name, ProductType productType);
+
+        Product Add(Product product);
+        Product Update(Product product);
+        bool Delete(ProductId productId);
+
     }
 }
